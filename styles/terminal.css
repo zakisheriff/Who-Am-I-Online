@@ -41,6 +41,8 @@
 /* Subtle CRT Flicker */
 .crt-flicker {
     animation: flicker 0.15s infinite;
+    position: relative;
+    z-index: 1;
 }
 
 @keyframes flicker {
