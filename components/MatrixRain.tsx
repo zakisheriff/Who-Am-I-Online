@@ -88,7 +88,7 @@ export default function MatrixRain() {
                 left: 0,
                 width: '100%',
                 height: '100%',
-                zIndex: 0, // Behind everything
+                zIndex: -1, // Behind everything
                 opacity: 0.25, // Subtle background
                 pointerEvents: 'none'
             }}

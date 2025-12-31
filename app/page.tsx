@@ -5,6 +5,7 @@ import TerminalInput from '@/components/TerminalInput'
 import BootSequence from '@/components/BootSequence'
 import AnalysisFeed from '@/components/AnalysisFeed'
 import ResultPanel from '@/components/ResultPanel'
+import ScrambleText from '@/components/ScrambleText'
 import { performAnalysis } from '@/app/analyze/action'
 import { AnalysisResult } from '@/osint/types'
 import { useSoundEngine } from '@/components/SoundEngine'
@@ -65,7 +66,7 @@ export default function Home() {
   return (
     <main className="main-container">
       <header className="header">
-        <h1 className="title glitch" data-text="WHO_AM_I_ONLINE">WHO_AM_I_ONLINE</h1>
+        <ScrambleText text="WHO_AM_I_ONLINE" className="title glitch" />
         <div className="subtitle">CINEMATIC OSINT INTELLIGENCE SYSTEM</div>
       </header>
 
@@ -99,7 +100,7 @@ export default function Home() {
               <button onClick={() => setState('IDLE')} className="reset-btn">NEW_SEARCH</button>
             </div>
 
-            <AnalysisFeed logs={logs} /> {/* Keep logs visible but static/minimized? Or just show logs above */}
+            <AnalysisFeed logs={logs} />
 
             <ResultPanel results={results} />
           </div>
