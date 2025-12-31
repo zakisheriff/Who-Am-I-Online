@@ -1,0 +1,95 @@
+/* Terminal & CRT Effects */
+
+.terminal-container {
+    position: relative;
+    min-height: 100vh;
+    width: 100%;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Scanlines Overlay */
+/* Scanlines Overlay */
+.scanlines {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background:
+        linear-gradient(to bottom, rgba(0, 20, 0, 0) 50%, rgba(0, 0, 0, 0.4) 50%),
+        linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
+    background-size: 100% 3px, 6px 100%;
+    pointer-events: none;
+    z-index: 90;
+}
+
+/* Heavy Vignette */
+.scanlines::after {
+    content: " ";
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    background: radial-gradient(circle, rgba(0, 0, 0, 0) 50%, rgba(0, 0, 0, 0.6) 100%);
+    z-index: 90;
+}
+
+/* Subtle CRT Flicker */
+.crt-flicker {
+    animation: flicker 0.15s infinite;
+}
+
+@keyframes flicker {
+    0% {
+        opacity: 0.97;
+    }
+
+    50% {
+        opacity: 1;
+    }
+
+    100% {
+        opacity: 0.98;
+    }
+}
+
+/* Green Glow Text */
+.glow-text {
+    color: var(--neon-green);
+    text-shadow: 0 0 5px var(--neon-green), 0 0 10px var(--neon-green);
+}
+
+.glow-border {
+    border: 1px solid var(--neon-green);
+    box-shadow: 0 0 5px var(--neon-green);
+}
+
+/* Typing Cursor */
+.cursor-blink::after {
+    content: '█';
+    animation: blink 1s step-end infinite;
+    margin-left: 2px;
+    color: var(--neon-green);
+}
+
+@keyframes blink {
+
+    0%,
+    100% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0;
+    }
+}
+
+/* Selection */
+::selection {
+    background: var(--neon-green);
+    color: var(--bg-dark);
+}

@@ -1,0 +1,30 @@
+:root {
+  --bg-dark: #000000;
+  --neon-green: #00FF41;
+  --muted-green: #003B00;
+  --amber-alert: #FFA500;
+  --text-main: #E0FFE0;
+  --font-mono: 'Courier New', Courier, monospace;
+}
+
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+
+html,
+body {
+  max-width: 100vw;
+  overflow-x: hidden;
+  background-color: var(--bg-dark);
+  color: var(--text-main);
+  font-family: var(--font-mono);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}

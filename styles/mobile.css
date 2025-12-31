@@ -1,0 +1,39 @@
+@media (max-width: 768px) {
+    .main-container {
+        padding: 1rem !important;
+    }
+
+    .title {
+        font-size: 2rem !important;
+        letter-spacing: 2px !important;
+    }
+
+    .subtitle {
+        font-size: 0.7rem !important;
+    }
+
+    .results-grid {
+        grid-template-columns: 1fr !important;
+    }
+
+    .result-card {
+        padding: 1rem !important;
+    }
+
+    /* Stack input group vertically more aggressively if needed */
+    .input-group {
+        margin-bottom: 0.5rem;
+    }
+
+    .feed-container {
+        font-size: 0.75rem !important;
+        height: 120px !important;
+    }
+
+    /* Hide cursor on tap to prevent zoom if needed, or adjust inputs */
+    input,
+    textarea {
+        font-size: 16px !important;
+        /* Prevent iOS zoom */
+    }
+}
