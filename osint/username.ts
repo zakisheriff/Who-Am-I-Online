@@ -35,12 +35,11 @@ async function checkGitHub(username: string): Promise<Signal[]> {
 // Simulated checks for other platforms (for safety/demo purposes)
 // In a real private system, this would use specific scraping/API keys
 async function checkSimulated(platform: string, username: string): Promise<Signal[]> {
-    // Mix platform into the hash so results vary per platform
-    const seed = username + platform
-    const hash = seed.split('').reduce((acc, char) => acc + char.charCodeAt(0), 0)
-
-    // Increased probability (50% chance) to ensure the UI feels populated
-    const exists = hash % 2 === 0
+    // Cinema Mode: Force 100% "Found" rate for all platforms so the user sees the links
+    // const seed = username + platform
+    // const hash = seed.split('').reduce((acc, char) => acc + char.charCodeAt(0), 0)
+    // const exists = hash % 2 === 0
+    const exists = true // DEMO OVERRIDE: ALWAYS FOUND
 
     if (!exists) return []
 
