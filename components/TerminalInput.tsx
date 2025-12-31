@@ -84,12 +84,19 @@ export default function TerminalInput({ onSubmit, disabled }: TerminalInputProps
             value={formData.countryCode}
             onChange={handleChange}
             className="terminal-input"
-            style={{ width: '80px', fontFamily: 'monospace' }}
+            style={{
+              width: '100px',
+              fontFamily: 'monospace',
+              background: 'rgba(0, 20, 0, 0.8)',
+              color: '#00FF41',
+              border: '1px solid #00FF41'
+            }}
             onFocus={() => play('hover')}
             disabled={disabled}
           >
             <option value="+1">+1 (US)</option>
             <option value="+44">+44 (UK)</option>
+            <option value="+94">+94 (LK)</option>
             <option value="+91">+91 (IN)</option>
             <option value="+971">+971 (UAE)</option>
             <option value="+61">+61 (AU)</option>
