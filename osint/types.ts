@@ -15,6 +15,8 @@ export interface AnalysisResult {
     riskLevel: 'LOW' | 'MEDIUM' | 'HIGH' // derived from confidence
     summary: string
     metadata?: Record<string, any> // Raw data for display
+    url?: string // Direct link to profile/resource
+    dork?: string // Google Dork query for manual verify
 }
 
 export interface AnalysisInput {

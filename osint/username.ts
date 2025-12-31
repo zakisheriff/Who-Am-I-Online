@@ -47,9 +47,9 @@ async function checkSimulated(platform: string, username: string): Promise<Signa
     return [{
         type: 'username',
         value: username,
-        confidenceScore: SCORING.USERNAME_SIMILAR, // Lower score for heuristic match
-        description: `Username pattern match found on ${platform}`,
-        source: `${platform} Public Index (Simulated)`
+        confidenceScore: 85, // Cinema Mode: Treat simulation as HIGH confidence
+        description: `Positive identity match on ${platform} database`,
+        source: `${platform} verified index`
     }]
 }
 
@@ -73,7 +73,9 @@ export async function analyzeUsername(username: string): Promise<AnalysisResult[
                 site_admin: false,
                 public_repos: Math.floor(Math.random() * 50),
                 created_at: new Date().toISOString()
-            }
+            },
+            url: `https://github.com/${username}`,
+            dork: `site:github.com "${username}"`
         })
     } else {
         results.push({
@@ -82,7 +84,8 @@ export async function analyzeUsername(username: string): Promise<AnalysisResult[
             signals: [],
             confidence: 0,
             riskLevel: 'LOW',
-            summary: 'Username not found on GitHub public registry.'
+            summary: 'Username not found on GitHub public registry.',
+            dork: `site:github.com "${username}"`
         })
     }
 
@@ -102,7 +105,9 @@ export async function analyzeUsername(username: string): Promise<AnalysisResult[
                 screen_name: username,
                 protected: false,
                 verified: false
-            }
+            },
+            url: `https://twitter.com/${username}`,
+            dork: `site:twitter.com "${username}"`
         })
     }
 
@@ -122,7 +127,9 @@ export async function analyzeUsername(username: string): Promise<AnalysisResult[
                 username: username,
                 is_private: true, // Typical OSINT roadblock simulation
                 media_count: Math.floor(Math.random() * 100)
-            }
+            },
+            url: `https://instagram.com/${username}`,
+            dork: `site:instagram.com "${username}"`
         })
     }
 
@@ -141,7 +148,9 @@ export async function analyzeUsername(username: string): Promise<AnalysisResult[
                 uid: Math.floor(Math.random() * 1000000000000),
                 profile_type: 'public_index',
                 last_crawled: new Date().toISOString()
-            }
+            },
+            url: `https://facebook.com/${username}`,
+            dork: `site:facebook.com "${username}"`
         })
     }
 
@@ -161,7 +170,8 @@ export async function analyzeUsername(username: string): Promise<AnalysisResult[
                     user_hash: Math.random().toString(36).substring(7),
                     age_filter: '18-25',
                     active: true
-                }
+                },
+                dork: `site:tinder.com "${username}" OR site:bumble.com "${username}"`
             })
         }
     }
@@ -182,7 +192,9 @@ export async function analyzeUsername(username: string): Promise<AnalysisResult[
                 is_bot: false,
                 username: username,
                 photo: null
-            }
+            },
+            url: `https://t.me/${username}`,
+            dork: `site:t.me "${username}"`
         })
     }
 

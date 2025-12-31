@@ -23,7 +23,13 @@ export default function ResultPanel({ results }: { results: AnalysisResult[] }) 
             {results.slice(0, visibleCount).map((res, i) => (
                 <div key={i} className="result-card animate-slide-in">
                     <div className="card-header">
-                        <h3>{res.platform}</h3>
+                        {res.url ? (
+                            <a href={res.url} target="_blank" rel="noopener noreferrer" className="platform-link">
+                                <h3>{res.platform} ↗</h3>
+                            </a>
+                        ) : (
+                            <h3>{res.platform}</h3>
+                        )}
                         <span className={`badge ${res.riskLevel.toLowerCase()}`}>{res.riskLevel} CONFIDENCE</span>
                     </div>
 
@@ -41,23 +47,83 @@ export default function ResultPanel({ results }: { results: AnalysisResult[] }) 
                     </ul>
 
                     {res.metadata && (
-                        <div className="metadata-block" style={{ marginTop: '1rem', borderTop: '1px dashed var(--muted-green)', paddingTop: '0.5rem' }}>
+                        <div className="metadata-block" style={{ marginTop: '1rem', borderTop: '1px dashed var(--muted-green)', padding: '0.5rem 0' }}>
                             <div style={{ fontSize: '0.7em', color: 'var(--muted-green)', marginBottom: '0.2rem' }}>[RAW_CAPTURE_DATA]</div>
                             <pre style={{
                                 fontSize: '0.7em',
                                 color: '#00cc33',
                                 background: 'rgba(0,20,0,0.5)',
                                 padding: '0.5rem',
-                                overflowX: 'auto'
+                                overflowX: 'auto',
+                                border: '1px solid #1a332a'
                             }}>
                                 {JSON.stringify(res.metadata, null, 2)}
                             </pre>
+                        </div>
+                    )}
+
+                    {(res.url || res.dork) && (
+                        <div className="action-row">
+                            {res.url && (
+                                <a href={res.url} target="_blank" rel="noopener noreferrer" className="action-btn primary">
+                                    OPEN PROFILE &gt;&gt;
+                                </a>
+                            )}
+                            {res.dork && (
+                                <a href={`https://www.google.com/search?q=${encodeURIComponent(res.dork)}`} target="_blank" rel="noopener noreferrer" className="action-btn secondary">
+                                    RUN GOOGLE DORK &gt;
+                                </a>
+                            )}
                         </div>
                     )}
                 </div>
             ))}
 
             <style jsx>{`
+        .action-row {
+            margin-top: 1rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+        .action-btn {
+            display: block;
+            width: 100%;
+            text-align: center;
+            border: 1px solid var(--neon-green);
+            padding: 0.6rem;
+            font-size: 0.9rem;
+            cursor: pointer;
+            text-decoration: none;
+            transition: all 0.2s;
+            font-family: var(--font-mono);
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+        .action-btn.primary {
+            background: var(--neon-green);
+            color: #000;
+        }
+        .action-btn.primary:hover {
+            background: #fff;
+            box-shadow: 0 0 15px var(--neon-green);
+        }
+        .action-btn.secondary {
+            background: transparent;
+            color: var(--neon-green);
+        }
+        .action-btn.secondary:hover {
+            background: rgba(0, 255, 65, 0.1);
+        }
+
+        .platform-link {
+            text-decoration: none;
+        }
+        .platform-link:hover h3 {
+            text-decoration: underline;
+            text-shadow: 0 0 8px var(--neon-green);
+        }
+
         .results-grid {
           display: grid;
           grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
@@ -65,15 +131,19 @@ export default function ResultPanel({ results }: { results: AnalysisResult[] }) 
           width: 100%;
         }
         .result-card {
-           background: rgba(5, 20, 15, 0.9);
+           background: rgba(5, 20, 15, 0.95);
            border: 1px solid var(--muted-green);
            padding: 1.5rem;
            transition: all 0.3s;
+           display: flex;
+           flex-direction: column;
         }
         .result-card:hover {
            border-color: var(--neon-green);
-           background: rgba(13, 59, 46, 0.5);
-           box-shadow: 0 0 10px rgba(0, 255, 156, 0.2);
+           background: rgba(0, 30, 0, 1);
+           box-shadow: 0 0 20px rgba(0, 255, 65, 0.15);
+           z-index: 10;
+           transform: scale(1.02);
         }
         .card-header {
            display: flex;
@@ -86,6 +156,7 @@ export default function ResultPanel({ results }: { results: AnalysisResult[] }) 
            margin: 0;
            text-transform: uppercase;
            letter-spacing: 2px;
+           transition: all 0.2s;
         }
         .badge {
            font-size: 0.7rem;
@@ -93,10 +164,10 @@ export default function ResultPanel({ results }: { results: AnalysisResult[] }) 
            border: 1px solid currentColor;
            border-radius: 2px;
         }
-        .badge.high { color: var(--neon-green); }
+        .badge.high { color: var(--neon-green); box-shadow: 0 0 5px var(--neon-green); }
         .badge.medium { color: var(--amber-alert); }
         .badge.low { color: #888; }
-
+        
         .confidence-meter {
            height: 4px;
            background: #111;

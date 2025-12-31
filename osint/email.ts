@@ -108,7 +108,9 @@ export async function analyzeEmail(email: string): Promise<AnalysisResult[]> {
             signals: gravSignals,
             confidence: gravConfidence,
             riskLevel: determineRisk(gravConfidence),
-            summary: generateSummary('Gravatar', gravSignals, gravConfidence)
+            summary: generateSummary('Gravatar', gravSignals, gravConfidence),
+            url: `https://gravatar.com/${md5(email)}`,
+            dork: `site:gravatar.com "${email}"`
         })
     }
     // Omitted the failure case for Gravatar to avoid clutter if nothing found
