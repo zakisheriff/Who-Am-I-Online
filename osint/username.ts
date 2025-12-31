@@ -35,9 +35,12 @@ async function checkGitHub(username: string): Promise<Signal[]> {
 // Simulated checks for other platforms (for safety/demo purposes)
 // In a real private system, this would use specific scraping/API keys
 async function checkSimulated(platform: string, username: string): Promise<Signal[]> {
-    // Deterministic simulation based on username char codes to be "stable" but "fake"
-    const hash = username.split('').reduce((acc, char) => acc + char.charCodeAt(0), 0)
-    const exists = hash % 3 === 0 // 33% chance of "existing" for random demo inputs
+    // Mix platform into the hash so results vary per platform
+    const seed = username + platform
+    const hash = seed.split('').reduce((acc, char) => acc + char.charCodeAt(0), 0)
+
+    // Increased probability (50% chance) to ensure the UI feels populated
+    const exists = hash % 2 === 0
 
     if (!exists) return []
 
@@ -119,6 +122,66 @@ export async function analyzeUsername(username: string): Promise<AnalysisResult[
                 username: username,
                 is_private: true, // Typical OSINT roadblock simulation
                 media_count: Math.floor(Math.random() * 100)
+            }
+        })
+    }
+
+    // 4. Facebook (Simulated)
+    const fbSignals = await checkSimulated('Facebook', username)
+    if (fbSignals.length > 0) {
+        const confidence = calculateConfidence(fbSignals)
+        results.push({
+            platform: 'Facebook',
+            status: 'potential',
+            signals: fbSignals,
+            confidence: confidence,
+            riskLevel: determineRisk(confidence),
+            summary: generateSummary('Facebook', fbSignals, confidence),
+            metadata: {
+                uid: Math.floor(Math.random() * 1000000000000),
+                profile_type: 'public_index',
+                last_crawled: new Date().toISOString()
+            }
+        })
+    }
+
+    // 5. Dating Platforms (Tinder/Bumble - Simulated)
+    if (Math.random() > 0.5) { // Randomize findings
+        const tinderSignals = await checkSimulated('Tinder', username)
+        if (tinderSignals.length > 0) {
+            const confidence = calculateConfidence(tinderSignals)
+            results.push({
+                platform: 'Tinder',
+                status: 'potential',
+                signals: tinderSignals,
+                confidence: confidence,
+                riskLevel: 'MEDIUM',
+                summary: 'Username associated with dating profile index.',
+                metadata: {
+                    user_hash: Math.random().toString(36).substring(7),
+                    age_filter: '18-25',
+                    active: true
+                }
+            })
+        }
+    }
+
+    // 6. Messaging (Telegram - Simulated)
+    const tgSignals = await checkSimulated('Telegram', username)
+    if (tgSignals.length > 0) {
+        const confidence = calculateConfidence(tgSignals)
+        results.push({
+            platform: 'Telegram',
+            status: 'found',
+            signals: tgSignals,
+            confidence: confidence,
+            riskLevel: 'MEDIUM',
+            summary: 'Telegram handle resolved.',
+            metadata: {
+                id: Math.floor(Math.random() * 999999999),
+                is_bot: false,
+                username: username,
+                photo: null
             }
         })
     }
