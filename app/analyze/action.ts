@@ -3,6 +3,7 @@
 import { AnalysisInput, AnalysisResult } from '@/osint/types'
 import { analyzeUsername } from '@/osint/username'
 import { analyzeEmail } from '@/osint/email'
+import { analyzePhone } from '@/osint/phone'
 
 // Simulate delayed processing for "Cinematic" feel
 const delay = (ms: number) => new Promise(res => setTimeout(res, ms))
@@ -28,6 +29,11 @@ export async function performAnalysis(input: AnalysisInput): Promise<{
     if (input.email) {
         logs.push(`> [MOD_EMAIL] Tracing email footprint...`)
         tasks.push(analyzeEmail(input.email).then(res => results.push(...res)))
+    }
+
+    if (input.phoneNumber && input.countryCode) {
+        logs.push(`> [MOD_PHONE] Triangulating mobile signal (${input.countryCode})...`)
+        tasks.push(analyzePhone(input.countryCode, input.phoneNumber).then(res => results.push(...res)))
     }
 
     // We await all actual logic

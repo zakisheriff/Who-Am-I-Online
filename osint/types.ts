@@ -23,7 +23,8 @@ export interface AnalysisInput {
     email?: string
     username?: string
     fullName?: string
-    phoneNumber?: string
+    phoneNumber?: string // Plain number (e.g. 9876543210)
+    countryCode?: string // e.g. +91
 }
 
 /* Constants for Scoring */

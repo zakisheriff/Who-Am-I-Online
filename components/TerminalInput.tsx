@@ -13,16 +13,17 @@ export default function TerminalInput({ onSubmit, disabled }: TerminalInputProps
     username: '',
     email: '',
     fullName: '',
-    phone: ''
+    phoneNumber: '',
+    countryCode: '+1'
   })
   const { play } = useSoundEngine()
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value })
     play('type')
   }
 
-  const isFormValid = formData.username.trim() !== '' || formData.email.trim() !== '' || formData.fullName.trim() !== ''
+  const isFormValid = formData.username.trim() !== '' || formData.email.trim() !== '' || formData.fullName.trim() !== '' || formData.phoneNumber.trim() !== ''
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
@@ -73,6 +74,47 @@ export default function TerminalInput({ onSubmit, disabled }: TerminalInputProps
           disabled={disabled}
           autoComplete="off"
         />
+      </div>
+
+      <div className="input-group">
+        <label className="terminal-label">TARGET_PHONE_NUMBER (OPTIONAL)</label>
+        <div style={{ display: 'flex', gap: '0.5rem' }}>
+          <select
+            name="countryCode"
+            value={formData.countryCode}
+            onChange={handleChange}
+            className="terminal-input"
+            style={{ width: '80px', fontFamily: 'monospace' }}
+            onFocus={() => play('hover')}
+            disabled={disabled}
+          >
+            <option value="+1">+1 (US)</option>
+            <option value="+44">+44 (UK)</option>
+            <option value="+91">+91 (IN)</option>
+            <option value="+971">+971 (UAE)</option>
+            <option value="+61">+61 (AU)</option>
+            <option value="+86">+86 (CN)</option>
+            <option value="+81">+81 (JP)</option>
+            <option value="+49">+49 (DE)</option>
+            <option value="+33">+33 (FR)</option>
+          </select>
+          <input
+            type="text"
+            name="phoneNumber"
+            value={formData.phoneNumber}
+            onChange={handleChange}
+            placeholder="9876543210"
+            className="terminal-input"
+            autoComplete="off"
+            onFocus={() => play('hover')}
+            style={{ flex: 1 }}
+            disabled={disabled}
+          />
+        </div>
+      </div>
+
+      <div className="status-line">
+        STATUS: {disabled ? 'PROCESSING...' : 'READY_FOR_INJECTION'}
       </div>
 
       <button
