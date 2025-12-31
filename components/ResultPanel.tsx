@@ -39,6 +39,21 @@ export default function ResultPanel({ results }: { results: AnalysisResult[] }) 
                             <li key={idx}>[+] {sig.description}</li>
                         ))}
                     </ul>
+
+                    {res.metadata && (
+                        <div className="metadata-block" style={{ marginTop: '1rem', borderTop: '1px dashed var(--muted-green)', paddingTop: '0.5rem' }}>
+                            <div style={{ fontSize: '0.7em', color: 'var(--muted-green)', marginBottom: '0.2rem' }}>[RAW_CAPTURE_DATA]</div>
+                            <pre style={{
+                                fontSize: '0.7em',
+                                color: '#00cc33',
+                                background: 'rgba(0,20,0,0.5)',
+                                padding: '0.5rem',
+                                overflowX: 'auto'
+                            }}>
+                                {JSON.stringify(res.metadata, null, 2)}
+                            </pre>
+                        </div>
+                    )}
                 </div>
             ))}
 

@@ -22,8 +22,11 @@ export default function TerminalInput({ onSubmit, disabled }: TerminalInputProps
     play('type')
   }
 
+  const isFormValid = formData.username.trim() !== '' || formData.email.trim() !== '' || formData.fullName.trim() !== ''
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
+    if (!isFormValid) return // Prevent empty submission
     play('boot')
     onSubmit(formData)
   }
@@ -74,8 +77,8 @@ export default function TerminalInput({ onSubmit, disabled }: TerminalInputProps
 
       <button
         type="submit"
-        className={`terminal-button ${disabled ? 'disabled' : ''}`}
-        disabled={disabled}
+        className={`terminal-button ${disabled || !isFormValid ? 'disabled' : ''}`}
+        disabled={disabled || !isFormValid}
         onMouseEnter={() => play('hover')}
       >
         {disabled ? 'SYSTEM_BUSY' : 'INITIATE_ANALYSIS'}

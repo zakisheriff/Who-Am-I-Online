@@ -4,6 +4,7 @@ export interface Signal {
     confidenceScore: number
     description: string
     source: string // e.g., 'GitHub Public Profile', 'Gravatar', 'Heuristic'
+    metadata?: Record<string, any> // Raw data capture
 }
 
 export interface AnalysisResult {
@@ -13,6 +14,7 @@ export interface AnalysisResult {
     confidence: number // 0-100
     riskLevel: 'LOW' | 'MEDIUM' | 'HIGH' // derived from confidence
     summary: string
+    metadata?: Record<string, any> // Raw data for display
 }
 
 export interface AnalysisInput {

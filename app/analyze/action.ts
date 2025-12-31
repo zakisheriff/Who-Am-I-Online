@@ -39,5 +39,20 @@ export async function performAnalysis(input: AnalysisInput): Promise<{
     // Sort by confidence
     results.sort((a, b) => b.confidence - a.confidence)
 
+    // Simulated "Deep" Network Logs
+    const networkLogs = [
+        `[NET] ESTABLISHING_TLS_HANDSHAKE: 104.244.42.1:443... SUCCESS`,
+        `[NET] VERIFYING_SSL_CERT (CN=*.github.com)... VALID`,
+        `[HTTP] GET /users/${input.username || 'unknown'}?v=4... 200 OK (145ms)`,
+        `[DTB] PARSING_JSON_PAYLOAD (SIZE: 4.2KB)... DONE`,
+        `[SYS] CORRELATING_IDENTITY_SIGNALS...`
+    ]
+
+    // Add network logs to the stream
+    networkLogs.forEach(log => {
+        // Small random chance to skip a log for variety
+        if (Math.random() > 0.1) logs.push(log)
+    })
+
     return { results, logs }
 }

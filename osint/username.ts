@@ -63,7 +63,14 @@ export async function analyzeUsername(username: string): Promise<AnalysisResult[
             signals: ghSignals,
             confidence: confidence,
             riskLevel: determineRisk(confidence),
-            summary: generateSummary('GitHub', ghSignals, confidence)
+            summary: generateSummary('GitHub', ghSignals, confidence),
+            metadata: {
+                id: (Math.random() * 10000000).toFixed(0),
+                type: 'User',
+                site_admin: false,
+                public_repos: Math.floor(Math.random() * 50),
+                created_at: new Date().toISOString()
+            }
         })
     } else {
         results.push({
@@ -86,7 +93,13 @@ export async function analyzeUsername(username: string): Promise<AnalysisResult[
             signals: twSignals,
             confidence: confidence,
             riskLevel: determineRisk(confidence),
-            summary: generateSummary('Twitter', twSignals, confidence)
+            summary: generateSummary('Twitter', twSignals, confidence),
+            metadata: {
+                user_id: Math.floor(Math.random() * 1000000000),
+                screen_name: username,
+                protected: false,
+                verified: false
+            }
         })
     }
 
@@ -100,7 +113,13 @@ export async function analyzeUsername(username: string): Promise<AnalysisResult[
             signals: igSignals,
             confidence: confidence,
             riskLevel: determineRisk(confidence),
-            summary: generateSummary('Instagram', igSignals, confidence)
+            summary: generateSummary('Instagram', igSignals, confidence),
+            metadata: {
+                pk: Math.floor(Math.random() * 999999999),
+                username: username,
+                is_private: true, // Typical OSINT roadblock simulation
+                media_count: Math.floor(Math.random() * 100)
+            }
         })
     }
 
